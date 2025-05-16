@@ -1,0 +1,60 @@
+﻿services:
+  app:
+    build: .
+    container_name: wallet-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/var/www/html:cached
+      - /var/www/html/vendor
+      - /var/www/html/node_modules
+    command: sh -c "/usr/local/bin/wait-for-db.sh db && php artisan config:cache && php artisan route:cache && php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000"
+    depends_on:
+      - db
+    networks:
+      - wallet-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+
+  # Vite
+  vite:
+    image: node:21-alpine
+    container_name: wallet-vite
+    working_dir: /app
+    volumes:
+      - ./:/app:cached
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm ci && npm run dev"
+    networks:
+      - wallet-network
+
+  db:
+    image: mysql:8.3
+    container_name: wallet-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wallet
+      MYSQL_USER: walletuser
+      MYSQL_PASSWORD: walletpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - wallet-db-data:/var/lib/mysql
+      - ./mysql-config:/etc/mysql/conf.d
+    networks:
+      - wallet-network
+    command: --default-authentication-plugin=mysql_native_password
+
+networks:
+  wallet-network:
+    driver: bridge
+
+volumes:
+  wallet-db-data:
