@@ -6,13 +6,27 @@
                 <div class="flex items-center gap-3 mb-4">
                     <a href="{{ route('dashboard') }}" class="text-gray-400 hover:text-gray-600 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
                     </a>
                     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Transferir Valores</h1>
                 </div>
                 <p class="text-gray-500 text-sm">Preencha os dados para transferir para outro usuário</p>
             </div>
+
+            @if (session('error'))
+                <div
+                    class="mt-4 mb-6 px-6 py-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-red-500" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="font-medium">{{ session('error') }}</span>
+                </div>
+            @endif
 
             <!-- Formulário -->
             <form method="POST" action="{{ route('wallet.transfer.submit') }}">
@@ -24,18 +38,14 @@
                     <div class="relative">
                         <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <input 
-                            type="email" 
-                            name="to_user_email" 
-                            id="to_user_email"
-                            required
+                        <input type="email" name="to_user_email" id="to_user_email" required
                             placeholder="email@exemplo.com"
                             class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 @error('to_user_email') border-red-500 @enderror"
-                            value="{{ old('to_user_email') }}"
-                        >
+                            value="{{ old('to_user_email') }}">
                     </div>
                     @error('to_user_email')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -49,16 +59,9 @@
                         <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                             <span class="text-gray-400">R$</span>
                         </div>
-                        <input 
-                            type="number" 
-                            step="0.01" 
-                            name="amount" 
-                            id="amount"
-                            required
-                            placeholder="0,00"
+                        <input type="number" step="0.01" name="amount" id="amount" required placeholder="0,00"
                             class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition duration-150 @error('amount') border-red-500 @enderror"
-                            value="{{ old('amount') }}"
-                        >
+                            value="{{ old('amount') }}">
                     </div>
                     @error('amount')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -67,16 +70,16 @@
 
                 <!-- Botão de ação -->
                 <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8">
-                    <a href="{{ route('dashboard') }}" class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium text-center rounded-xl transition-colors">
+                    <a href="{{ route('dashboard') }}"
+                        class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium text-center rounded-xl transition-colors">
                         Cancelar
                     </a>
-                    <button 
-                        type="submit" 
-                        class="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-md hover:shadow-lg"
-                    >
+                    <button type="submit"
+                        class="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-md hover:shadow-lg">
                         <div class="flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m-4 6H4m0 0l4 4m-4-4l4-4"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7h12m0 0l-4-4m4 4l-4 4m-4 6H4m0 0l4 4m-4-4l4-4" />
                             </svg>
                             Confirmar Transferência
                         </div>

@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100">
-            <!-- Cabeçalho -->
             <div class="mb-8">
                 <div class="flex items-center gap-3 mb-4">
                     <a href="{{ route('dashboard') }}" class="text-gray-400 hover:text-gray-600 transition-colors">
@@ -13,12 +12,8 @@
                 </div>
                 <p class="text-gray-500 text-sm">Preencha os dados abaixo para adicionar fundos à sua carteira</p>
             </div>
-
-            <!-- Formulário -->
             <form method="POST" action="{{ route('wallet.deposit.submit') }}">
                 @csrf
-
-                <!-- Valor -->
                 <div class="mb-7">
                     <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Valor (R$)</label>
                     <div class="relative">
@@ -56,7 +51,6 @@
                     @enderror
                 </div>
 
-                <!-- Botão de ação -->
                 <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8">
                     <a href="{{ route('dashboard') }}" class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium text-center rounded-xl transition-colors">
                         Cancelar

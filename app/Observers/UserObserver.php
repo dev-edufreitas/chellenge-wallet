@@ -11,7 +11,10 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        $user->wallet()->create(['balance' => 0]);
+        $user->wallet()->create([
+            'balance' => 0,
+            'limit' => 200.00 
+        ]);
     }
     /**
      * Handle the User "updated" event.
