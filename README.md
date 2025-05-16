@@ -52,4 +52,3 @@ Este projeto foi desenvolvido como parte de um desafio técnico para o Grupo Adr
 
 ---
 
-Feito com ❤️ por DevFreitas.
