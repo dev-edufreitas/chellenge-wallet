@@ -21,8 +21,8 @@ class WalletController extends Controller
      */
     public function dashboard(Request $request)
     {
-        $wallet = $request->user()->wallet;
-        $balance = $wallet->balance;
+        $wallet       = $request->user()->wallet;
+        $balance      = $wallet->balance;
         $transactions = $wallet->transactions()->latest()->paginate(5);
 
         return view('wallet.dashboard', compact('balance', 'transactions', 'wallet'));
@@ -49,7 +49,7 @@ class WalletController extends Controller
     public function deposit(Request $request)
     {
         $request->validate([
-            'amount' => 'required|numeric|min:0.01',
+            'amount'      => 'required|numeric|min:0.01',
             'description' => 'nullable|string|max:255',
         ]);
 
@@ -77,7 +77,6 @@ class WalletController extends Controller
 
             return redirect()->route('dashboard')->with('success', 'Transferência realizada com sucesso!');
         } catch (\Exception $e) {
-            // Redireciona de volta com o erro
             return redirect()->back()
                 ->withInput()
                 ->with('error', $e->getMessage());

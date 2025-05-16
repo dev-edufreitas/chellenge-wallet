@@ -24,9 +24,9 @@ class WalletService
         $wallet->save();
 
         $wallet->transactions()->create([
-            'type' => 'deposit',
-            'amount' => $amount,
-            'description' => $description,
+            'type'                  => 'deposit',
+            'amount'                => $amount,
+            'description'           => $description,
             'transaction_reference' => Str::uuid(),
         ]);
     }
@@ -45,7 +45,7 @@ class WalletService
         if ($fromUser->wallet->balance + $fromUser->wallet->limit < $amount) {
             throw new \Exception('Saldo e limite insuficientes para realizar a transferência.');
         }
-        
+
         if ($fromUser->email === $toUser->email) {
             throw new \Exception('Você não pode realizar uma transferencia para você mesmo.');
         }
@@ -56,9 +56,9 @@ class WalletService
         $fromUser->wallet->balance -= $amount;
         $fromUser->wallet->save();
         $fromUser->wallet->transactions()->create([
-            'type' => 'transfer_out',
-            'amount' => -$amount,
-            'description' => "Transferência para {$toUser->email}",
+            'type'                  => 'transfer_out',
+            'amount'                => -$amount,
+            'description'           => "Transferência para {$toUser->email}",
             'transaction_reference' => $transactionReference,
         ]);
 
@@ -66,9 +66,9 @@ class WalletService
         $toUser->wallet->balance += $amount;
         $toUser->wallet->save();
         $toUser->wallet->transactions()->create([
-            'type' => 'transfer_in',
-            'amount' => $amount,
-            'description' => "Recebido de {$fromUser->email}",
+            'type'                  => 'transfer_in',
+            'amount'                => $amount,
+            'description'           => "Recebido de {$fromUser->email}",
             'transaction_reference' => $transactionReference,
         ]);
     }
@@ -82,14 +82,12 @@ class WalletService
      */
     public function revertTransaction(string $transactionReference, $reason = null): void
     {
-        // Busca todas as transações com a referência fornecida
         $transactions = Transaction::where('transaction_reference', $transactionReference)->get();
 
         if ($transactions->isEmpty()) {
             throw new \Exception('Transação não encontrada.');
         }
 
-        // Verifica se qualquer transação já foi revertida
         if ($transactions->contains('is_reverted', true)) {
             throw new \Exception('Esta transação já foi revertida anteriormente.');
         }
